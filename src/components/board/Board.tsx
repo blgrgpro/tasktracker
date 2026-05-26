@@ -18,7 +18,7 @@ import TaskDetail from '@/components/task/TaskDetail';
 
 const COLUMNS: { id: Status; label: string }[] = [
   { id: 'todo', label: 'To Do' },
-  { id: 'in-progress', label: 'In Progress' },
+  { id: 'in-progress', label: 'Ongoing' },
   { id: 'done', label: 'Done' },
 ];
 

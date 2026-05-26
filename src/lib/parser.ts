@@ -36,7 +36,7 @@ export function parseQuickAdd(input: string): ParsedTask {
 
     // Stage
     if (['todo', 'to do', 'to-do'].includes(lower)) { status = 'todo'; continue; }
-    if (['in progress', 'in-progress', 'doing'].includes(lower)) { status = 'in-progress'; continue; }
+    if (['in progress', 'in-progress', 'doing', 'ongoing'].includes(lower)) { status = 'in-progress'; continue; }
     if (['done', 'completed', 'finished'].includes(lower)) { status = 'done'; continue; }
 
     // Priority

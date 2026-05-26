@@ -14,7 +14,7 @@ const PRIORITY_ACTIVE: Record<Priority, string> = {
 
 const STATUSES: { value: Status; label: string }[] = [
   { value: 'todo', label: 'To Do' },
-  { value: 'in-progress', label: 'In Progress' },
+  { value: 'in-progress', label: 'Ongoing' },
   { value: 'done', label: 'Done' },
 ];
 
