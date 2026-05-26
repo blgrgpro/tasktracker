@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import type { Task, Priority, Status } from '@/types/task';
 import { useTaskStore } from '@/lib/store';
+import { toDateInputValue, fromDateInputValue } from '@/lib/utils';
 
 const PRIORITIES: Priority[] = ['low', 'medium', 'high'];
 
@@ -28,6 +29,7 @@ export default function TaskDetail({ task, onClose }: Props) {
   const [description, setDescription] = useState(task.description);
   const [priority, setPriority] = useState<Priority>(task.priority);
   const [status, setStatus] = useState<Status>(task.status);
+  const [dueDate, setDueDate] = useState<number | undefined>(task.dueDate);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -38,7 +40,7 @@ export default function TaskDetail({ task, onClose }: Props) {
   }, [onClose]);
 
   function handleSave() {
-    updateTask(task.id, { title: title.trim() || task.title, description, priority, status });
+    updateTask(task.id, { title: title.trim() || task.title, description, priority, status, dueDate });
     onClose();
   }
 
@@ -87,10 +89,33 @@ export default function TaskDetail({ task, onClose }: Props) {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              rows={4}
+              rows={3}
               placeholder="Add a description…"
               className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 resize-none"
             />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Due date</label>
+            <div className="flex gap-2">
+              <input
+                type="date"
+                value={dueDate ? toDateInputValue(dueDate) : ''}
+                onChange={(e) =>
+                  setDueDate(e.target.value ? fromDateInputValue(e.target.value) : undefined)
+                }
+                className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 bg-white"
+              />
+              {dueDate && (
+                <button
+                  onClick={() => setDueDate(undefined)}
+                  className="px-2 py-1 text-xs text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Clear date"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
           </div>
 
           <div>

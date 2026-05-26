@@ -25,7 +25,7 @@ const INITIAL_TASKS: Task[] = [
 interface TaskState {
   tasks: Task[];
   addTask: (title: string, status: Status) => void;
-  updateTask: (id: string, updates: Partial<Pick<Task, 'title' | 'description' | 'status' | 'priority'>>) => void;
+  updateTask: (id: string, updates: Partial<Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'dueDate'>>) => void;
   deleteTask: (id: string) => void;
   moveTask: (id: string, status: Status) => void;
 }

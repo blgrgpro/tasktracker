@@ -1,12 +1,19 @@
 'use client';
 import { useDraggable } from '@dnd-kit/core';
 import type { Task, Priority } from '@/types/task';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatDueDate, getDueDateStatus, type DueDateStatus } from '@/lib/utils';
 
 const PRIORITY_BADGE: Record<Priority, string> = {
   low: 'bg-green-100 text-green-700',
   medium: 'bg-yellow-100 text-yellow-700',
   high: 'bg-red-100 text-red-700',
+};
+
+const DUE_COLOR: Record<DueDateStatus, string> = {
+  overdue: 'text-red-600 font-semibold',
+  today: 'text-orange-500 font-semibold',
+  soon: 'text-yellow-600',
+  later: 'text-gray-400',
 };
 
 interface Props {
@@ -25,6 +32,8 @@ export default function TaskCard({ task, isDragOverlay = false, onClick }: Props
     ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
     : undefined;
 
+  const dueDateStatus = task.dueDate ? getDueDateStatus(task.dueDate) : null;
+
   return (
     <div
       ref={setNodeRef}
@@ -38,6 +47,8 @@ export default function TaskCard({ task, isDragOverlay = false, onClick }: Props
         'hover:shadow-md hover:border-gray-300 transition-all',
         isDragging && !isDragOverlay ? 'opacity-40 shadow-none' : 'shadow-sm',
         isDragOverlay ? 'shadow-2xl ring-2 ring-blue-300 rotate-1' : '',
+        dueDateStatus === 'overdue' ? 'border-l-2 border-l-red-400' : '',
+        dueDateStatus === 'today' ? 'border-l-2 border-l-orange-400' : '',
       ]
         .filter(Boolean)
         .join(' ')}
@@ -51,7 +62,13 @@ export default function TaskCard({ task, isDragOverlay = false, onClick }: Props
         >
           {task.priority}
         </span>
-        <span className="text-xs text-gray-400 shrink-0">{formatDate(task.createdAt)}</span>
+        {task.dueDate ? (
+          <span className={`text-xs shrink-0 ${DUE_COLOR[dueDateStatus!]}`}>
+            {formatDueDate(task.dueDate)}
+          </span>
+        ) : (
+          <span className="text-xs text-gray-300 shrink-0">{formatDate(task.createdAt)}</span>
+        )}
       </div>
     </div>
   );
