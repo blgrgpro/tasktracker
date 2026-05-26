@@ -65,11 +65,14 @@ export default function TopBar() {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Stage + Task + Description + Date + Priority + work/own — press N"
-              className="w-full pl-7 pr-8 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 focus:bg-white transition-colors placeholder:text-gray-400"
+              placeholder="ongoing + mouse + get from gigantti + 23.6.2026 + high + own"
+              className="w-full pl-7 pr-8 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 focus:bg-white transition-colors placeholder:text-gray-300"
             />
             <kbd className="absolute right-3 text-xs text-gray-300 font-mono pointer-events-none">↵</kbd>
           </div>
+          <p className="mt-1 text-xs text-gray-300 select-none">
+            Stage · Task · Description · Date · Priority · work/own
+          </p>
           {feedback && (
             <p className="absolute top-full mt-1 left-0 text-xs text-green-700 bg-green-50 border border-green-200 px-2 py-1 rounded-lg whitespace-nowrap z-10">
               {feedback}
