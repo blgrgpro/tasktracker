@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import type { Task, Priority, Status } from '@/types/task';
+import type { Task, Priority, Status, Context } from '@/types/task';
 import { useTaskStore } from '@/lib/store';
 import { toDateInputValue, fromDateInputValue } from '@/lib/utils';
 
@@ -30,6 +30,7 @@ export default function TaskDetail({ task, onClose }: Props) {
   const [priority, setPriority] = useState<Priority>(task.priority);
   const [status, setStatus] = useState<Status>(task.status);
   const [dueDate, setDueDate] = useState<number | undefined>(task.dueDate);
+  const [context, setContext] = useState<Context | undefined>(task.context);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -40,7 +41,7 @@ export default function TaskDetail({ task, onClose }: Props) {
   }, [onClose]);
 
   function handleSave() {
-    updateTask(task.id, { title: title.trim() || task.title, description, priority, status, dueDate });
+    updateTask(task.id, { title: title.trim() || task.title, description, priority, status, dueDate, context });
     onClose();
   }
 
@@ -115,6 +116,27 @@ export default function TaskDetail({ task, onClose }: Props) {
                   ✕
                 </button>
               )}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-2">Context</label>
+            <div className="flex gap-2">
+              {(['work', 'own'] as Context[]).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setContext(context === c ? undefined : c)}
+                  className={`flex-1 py-1.5 text-xs font-medium rounded-lg capitalize transition-colors ${
+                    context === c
+                      ? c === 'work'
+                        ? 'bg-blue-100 text-blue-700 ring-2 ring-blue-300'
+                        : 'bg-purple-100 text-purple-700 ring-2 ring-purple-300'
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
             </div>
           </div>
 

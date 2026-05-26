@@ -1,6 +1,6 @@
 'use client';
 import { useDraggable } from '@dnd-kit/core';
-import type { Task, Priority } from '@/types/task';
+import type { Task, Priority, Context } from '@/types/task';
 import { formatDate, formatDueDate, getDueDateStatus, type DueDateStatus } from '@/lib/utils';
 
 const PRIORITY_BADGE: Record<Priority, string> = {
@@ -14,6 +14,11 @@ const DUE_COLOR: Record<DueDateStatus, string> = {
   today: 'text-orange-500 font-semibold',
   soon: 'text-yellow-600',
   later: 'text-gray-400',
+};
+
+const CONTEXT_BADGE: Record<Context, string> = {
+  work: 'bg-blue-100 text-blue-700',
+  own: 'bg-purple-100 text-purple-700',
 };
 
 interface Props {
@@ -53,13 +58,18 @@ export default function TaskCard({ task, isDragOverlay = false, onClick }: Props
         .filter(Boolean)
         .join(' ')}
     >
-      <p className="text-sm font-medium text-gray-900 mb-2.5 leading-snug line-clamp-2">
-        {task.title}
-      </p>
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <p className="text-sm font-medium text-gray-900 leading-snug line-clamp-2 flex-1">
+          {task.title}
+        </p>
+        {task.context && (
+          <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium capitalize shrink-0 ${CONTEXT_BADGE[task.context]}`}>
+            {task.context}
+          </span>
+        )}
+      </div>
       <div className="flex items-center justify-between gap-2">
-        <span
-          className={`text-xs px-1.5 py-0.5 rounded-full font-medium capitalize ${PRIORITY_BADGE[task.priority]}`}
-        >
+        <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium capitalize ${PRIORITY_BADGE[task.priority]}`}>
           {task.priority}
         </span>
         {task.dueDate ? (

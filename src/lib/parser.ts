@@ -1,10 +1,11 @@
-import type { Status, Priority } from '@/types/task';
+import type { Status, Priority, Context } from '@/types/task';
 
 export interface ParsedTask {
   title: string;
   description: string;
   status: Status;
   priority: Priority;
+  context?: Context;
   dueDate?: number;
 }
 
@@ -25,6 +26,7 @@ export function parseQuickAdd(input: string): ParsedTask {
 
   let status: Status = 'todo';
   let priority: Priority = 'medium';
+  let context: Context | undefined;
   let dueDate: number | undefined;
   let title: string | null = null;
   let description: string | null = null;
@@ -40,6 +42,10 @@ export function parseQuickAdd(input: string): ParsedTask {
     // Priority
     if (['low', 'medium', 'high'].includes(lower)) { priority = lower as Priority; continue; }
 
+    // Context
+    if (lower === 'work') { context = 'work'; continue; }
+    if (['own', 'personal', 'private'].includes(lower)) { context = 'own'; continue; }
+
     // Date
     const parsed = parseDate(part);
     if (parsed !== null) { dueDate = parsed; continue; }
@@ -54,6 +60,7 @@ export function parseQuickAdd(input: string): ParsedTask {
     description: description ?? '',
     status,
     priority,
+    context,
     dueDate,
   };
 }

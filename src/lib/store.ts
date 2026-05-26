@@ -27,7 +27,7 @@ interface TaskState {
   tasks: Task[];
   addTask: (title: string, status: Status) => void;
   addParsedTask: (parsed: ParsedTask) => void;
-  updateTask: (id: string, updates: Partial<Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'dueDate'>>) => void;
+  updateTask: (id: string, updates: Partial<Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'context' | 'dueDate'>>) => void;
   deleteTask: (id: string) => void;
   moveTask: (id: string, status: Status) => void;
 }
